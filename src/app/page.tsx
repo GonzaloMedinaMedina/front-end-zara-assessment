@@ -8,6 +8,7 @@ export default function Home()
         <h1 className="text-blue-600 text-3xl">Podcaster</h1>
         <hr></hr>
       </div>
+      <MainView></MainView>
     </main>
   )
 }

@@ -33,7 +33,6 @@ export default function MainView()
 
     podcasts.forEach((p) => {console.log(p)});
 
-    var key = 0;
     const podcastComponents = cachedPodcasts.map((p) => {return <PodcastIcon podcastInfo={p}></PodcastIcon>});
 
     return(

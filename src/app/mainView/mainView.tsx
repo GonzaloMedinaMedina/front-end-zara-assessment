@@ -17,16 +17,18 @@ export default function MainView()
             const entry = data!.feed!.entry!
             if (entry.length! > 0)
             {
-                const podcastsComponents = entry.map((p) => 
+                
+                var podcastsComponents: [] = []; 
+                entry.forEach((p) => 
                 {
-                    return <PodcastIcon podcastInfo={p}></PodcastIcon>
+                    podcastsComponents.push(<PodcastIcon podcastInfo={p}></PodcastIcon>)
+                    localStorage.setItem(`podcast${p.id!.attributes["im:id"]}`, JSON.stringify(p));
                 });
                 
                 setPodcasts(podcastsComponents);
             }
         })
         .catch(e => console.error(e));
-
     }, []);
     
     const podcastMatchWithSearchInput = (podcast: any) =>

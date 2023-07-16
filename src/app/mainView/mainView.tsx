@@ -13,18 +13,20 @@ export default function MainView()
         fetch('https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1310/json')
         .then(response => response.json())
         .then(data => 
+        {
+            const entry = data!.feed!.entry!
+            if (entry.length! > 0)
             {
-                const entry = data!.feed!.entry!
-                if (entry.length! > 0)
+                const podcastsComponents = entry.map((p) => 
                 {
-                    const podcastsComponents = entry.map((p) => 
-                    {
-                        return <PodcastIcon podcastInfo={p}></PodcastIcon>
-                    });
-                    
-                    setPodcasts(podcastsComponents);
-                }
-            });
+                    return <PodcastIcon podcastInfo={p}></PodcastIcon>
+                });
+                
+                setPodcasts(podcastsComponents);
+            }
+        })
+        .catch(e => console.error(e));
+
     }, []);
     
     const podcastMatchWithSearchInput = (podcast: any) =>
@@ -43,7 +45,7 @@ export default function MainView()
     const cachedPodcasts: any[] = useMemo(() => podcasts.filter((p) => podcastMatchWithSearchInput(p) === true) , [podcasts, podcastSearchInput]);
 
     return(
-        <div className="relative flex flex-col py-5 min-w-full">
+       <>
             <div className="flex justify-end top-10 right-10">
                 <div className="min-w-10 w-10 bg-blue-600 place-content-center rounded-full">
                     <p className="text-center text-white">{cachedPodcasts.length}</p>
@@ -53,6 +55,6 @@ export default function MainView()
             <div className="grid grid-cols-4 py-5">
                 {cachedPodcasts}
             </div>
-        </div>
+        </>
     )
 }

@@ -1,36 +1,17 @@
 
 'use client';
 import { useState, useMemo, useEffect } from "react";
+import { readCachedDataByPattern } from "../utils";
 import PodcastIcon from "./podcastIcon";
 
 export default function MainView()
 {
+    const podcastListCacheKey = 'podcast[0-9]+';
+    const podcastListTimeStampKey = 'podcastListTimeStamp';
+    
     const [podcastSearchInput, setPodcastSearchInput] = useState('');
     const [podcasts, setPodcasts] = useState([]);
 
-    useEffect(() =>
-    {
-        fetch('https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1310/json')
-        .then(response => response.json())
-        .then(data => 
-        {
-            const entry = data!.feed!.entry!
-            if (entry.length! > 0)
-            {
-                
-                var podcastsComponents: [] = []; 
-                entry.forEach((p) => 
-                {
-                    podcastsComponents.push(<PodcastIcon podcastInfo={p}></PodcastIcon>)
-                    localStorage.setItem(`podcast${p.id!.attributes["im:id"]}`, JSON.stringify(p));
-                });
-                
-                setPodcasts(podcastsComponents);
-            }
-        })
-        .catch(e => console.error(e));
-    }, []);
-    
     const podcastMatchWithSearchInput = (podcast: any) =>
     {
         if (podcastSearchInput === '')
@@ -44,6 +25,45 @@ export default function MainView()
             author.toLowerCase().includes(podcastSearchInput);
     }
 
+    const readCachedPodcasts = () => 
+    {
+        var cachedData: [] = readCachedDataByPattern(podcastListTimeStampKey, podcastListCacheKey);
+
+        return cachedData.map(p => { return <PodcastIcon podcastInfo={p}></PodcastIcon> });
+    }
+
+    useEffect(() =>
+    {
+        var podcastsComponents: [] = readCachedPodcasts(); 
+
+        if (podcastsComponents.length === 0)
+        {
+            fetch('https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1310/json')
+            .then(response => response.json())
+            .then(data => 
+            {
+                const entry = data!.feed!.entry!
+                if (entry.length! > 0)
+                {
+                    entry.forEach((p) => 
+                    {
+                        podcastsComponents.push(<PodcastIcon podcastInfo={p}></PodcastIcon>)
+                        localStorage.setItem(`podcast${p.id!.attributes["im:id"]}`, JSON.stringify(p));
+                    });
+
+                    localStorage.setItem('podcastListTimeStamp', JSON.stringify((new Date()).getTime()));
+                    setPodcasts(podcastsComponents);
+                }
+            })
+            .catch(e => console.error(e));
+        }
+        else
+        {
+            setPodcasts(podcastsComponents);
+        }
+
+    }, []);
+    
     const cachedPodcasts: any[] = useMemo(() => podcasts.filter((p) => podcastMatchWithSearchInput(p) === true) , [podcasts, podcastSearchInput]);
 
     return(

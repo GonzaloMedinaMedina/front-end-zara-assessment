@@ -13,6 +13,17 @@ module.exports = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      keyframes: {
+        loadingAnimation: 
+        {
+          '0%': { 'border-width': '2px'},
+          '50%': { 'border-width': '10px'},
+          '100%': { 'border-width': '2px'}
+        }
+      },
+      animation: {
+        border: 'loadingAnimation 1s infinite',
+      }
     },
   },
   plugins: [],

@@ -26,13 +26,13 @@ export default function Page({params})
         return `${day}/${month}/${year}`;
     }
 
-    const createEpisodeObject = (item: any) =>
+    const createEpisodeObject = (item: any, index: number) =>
     {
         return {
             title: item.title[0],
             date: getFormatDate(item.pubDate[0]),
             duration: item['itunes:duration'],
-            id: item.guid[0]['_'],
+            id: index,
             soundContent: item['enclosure'][0]['$'].url,
             description: item['description']
         }
@@ -63,9 +63,11 @@ export default function Page({params})
                         if (episodeList)
                         {
                             var episodeObjectList: [] = [];
+                            let episodeIndex:number = 0;
+
                             episodeList.forEach(i => 
                             {
-                                episodeObjectList.push(createEpisodeObject(i));
+                                episodeObjectList.push(createEpisodeObject(i, episodeIndex++));
                             });
 
                             localStorage.setItem(podcastEpisodesKey, JSON.stringify(episodeObjectList));

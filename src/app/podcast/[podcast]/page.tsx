@@ -1,4 +1,5 @@
 'use client'
+import Link from 'next/link'
 import { useEffect, useContext, useState } from "react"
 import { readCachedData } from "@/app/utils";
 import { PodcastDetailsContext } from "./layout";
@@ -92,7 +93,7 @@ export default function Page({params})
         gray = !gray;
 
         return <div className={"flex flex-inline py-1 " + bgColor}>
-            <a className="w-full px-5 text-blue-600" href={`/podcast/${podcastId}/episode/${e.id}`}>{e.title}</a>
+            <Link className="w-full px-5 text-blue-600" href={`/podcast/${podcastId}/episode/${e.id}`}>{e.title}</Link>
             <p className="px-20">{e.date}</p>
             <p className="px-5">{e.duration}</p>
         </div>

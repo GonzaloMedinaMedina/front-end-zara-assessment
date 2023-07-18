@@ -1,5 +1,6 @@
 
 'use client'
+import Link from 'next/link'
 import { useEffect, useState, createContext } from "react"
 import { readCachedData } from "../../utils";
 
@@ -55,7 +56,7 @@ export default function Layout({params, children}: {children: React.ReactNode})
     }, []);
 
     return (<div className=" flex flex-row p-5">
-        <a className="max-w-xs max-h-xs	" href={`/podcast/${podcast}`}>
+        <Link className="max-w-xs max-h-xs	" href={`/podcast/${podcast}`}>
             <div className= " justify-center items-center shadow-md border m-5 p-5">
                 <img className=" max-w-300 max-h-300 p-5" src={podcastDetails?.artworkUrl600}></img>
                 <hr></hr>
@@ -69,7 +70,7 @@ export default function Layout({params, children}: {children: React.ReactNode})
                     <div className="italic text-ellipsis overflow-hidden">{podcastDetails?.summary?.label}</div>
                 </div>
             </div>
-        </a>
+        </Link>
         <div className="m-5 mx-20 w-full">
             <PodcastDetailsContext.Provider value={podcastDetails}>
                 {children}

@@ -1,31 +1,44 @@
 'use client'
-import { useContext, useState, useEffect } from "react"
-import { EpisodeListContext } from "../../layout"
+import { useState, useEffect } from "react"
+import { readCachedData } from "@/app/utils";
 
 export default function Page({params})
 {
-    const [currentEpisode, setCurrentEpisode] = useState(
-        {
-            soundContent: '',
-            title: '',
-            description: ''
-        }
-    )
-    const episodeList = useContext(EpisodeListContext);
+    const podcastId = params.podcast;
+    const episodeId = params.episode;
+    const podcastEpisodesTimeStampKey = `podcastEpisodesTimeStamp${podcastId}`;
+    const podcastEpisodesKey = `podcastEpisodes${podcastId}`;
 
+    const [currentEpisode, setCurrentEpisode] = useState(
+    {
+        soundContent: '',
+        title: '',
+        description: ''
+    });
+
+    const readCahedPodcastEpisodes = () =>
+    {
+        return readCachedData(podcastEpisodesTimeStampKey, podcastEpisodesKey);
+    }
+    
     useEffect(() => 
     {
-        if (episodeList.length > 0)    
-            setCurrentEpisode(episodeList.find(e => e.id == params.episode));
+        const cachedEpisodes = readCahedPodcastEpisodes();
+        const episodeInfo = cachedEpisodes.find(e => e.id == episodeId);
+        setCurrentEpisode(episodeInfo);
     }, 
-    [episodeList]);
+    []);
 
+    const soundComponent = currentEpisode.soundContent !== '' ?
+    <audio controls>
+            <source src={currentEpisode.soundContent}/>
+        </audio>
+        :
+        ''
 
     return <div className="hadow-md border p-5 mb-10">
         <p className="w-full p-5 text-xl">{currentEpisode.title}</p>
         <div className="text-gray-600 italic p-5">{currentEpisode.description}</div>
-        <audio controls>
-            <source src={currentEpisode.soundContent}/>
-        </audio>
+        {soundComponent}
     </div>
 }

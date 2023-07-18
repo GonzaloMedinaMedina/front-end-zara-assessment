@@ -1,6 +1,7 @@
 'use client'
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import { readCachedData } from "@/app/utils";
+import { ShowLoadingIconContext } from '@/app/layout'
 
 export default function Page({params})
 {
@@ -8,6 +9,7 @@ export default function Page({params})
     const episodeId = params.episode;
     const podcastEpisodesTimeStampKey = `podcastEpisodesTimeStamp${podcastId}`;
     const podcastEpisodesKey = `podcastEpisodes${podcastId}`;
+    const setShowLoadingIcon = useContext(ShowLoadingIconContext);
 
     const [currentEpisode, setCurrentEpisode] = useState(
     {
@@ -26,6 +28,7 @@ export default function Page({params})
         const cachedEpisodes = readCahedPodcastEpisodes();
         const episodeInfo = cachedEpisodes.find(e => e.id == episodeId);
         setCurrentEpisode(episodeInfo);
+        setShowLoadingIcon(false)
     }, 
     []);
 

@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { useEffect, useContext, useState } from "react"
 import { readCachedData } from "@/app/utils";
 import { PodcastDetailsContext } from "./layout";
+import { ShowLoadingIconContext } from '@/app/layout'
 
 var parseString = require('xml2js').parseString;
 
@@ -15,6 +16,7 @@ export default function Page({params})
 
     const [episodeList, setEpisodeList] = useState([]);
     const podcastDetails = useContext(PodcastDetailsContext);
+    const setShowLoadingIcon = useContext(ShowLoadingIconContext);
 
     const getFormatDate = (stringDate: string) => 
     {
@@ -74,6 +76,7 @@ export default function Page({params})
                             localStorage.setItem(podcastEpisodesKey, JSON.stringify(episodeObjectList));
                             localStorage.setItem(podcastEpisodesTimeStampKey, JSON.stringify((new Date()).getTime()));
                             setEpisodeList(episodeObjectList);
+                            setShowLoadingIcon(false);
                         }
                     });
                 })
@@ -82,6 +85,7 @@ export default function Page({params})
         else
         {
             setEpisodeList(cachedEpisodes);
+            setShowLoadingIcon(false);
         }
 
     }, [podcastDetails]);
@@ -93,7 +97,7 @@ export default function Page({params})
         gray = !gray;
 
         return <div className={"flex flex-inline py-1 " + bgColor}>
-            <Link className="w-full px-5 text-blue-600" href={`/podcast/${podcastId}/episode/${e.id}`}>{e.title}</Link>
+            <Link className="w-full px-5 text-blue-600" href={`/podcast/${podcastId}/episode/${e.id}`} onClick={() => { setShowLoadingIcon(true)}}>{e.title}</Link>
             <p className="px-20">{e.date}</p>
             <p className="px-5">{e.duration}</p>
         </div>

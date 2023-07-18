@@ -56,7 +56,7 @@ export default function Layout({params, children}: {children: React.ReactNode})
     }, []);
 
     return (<div className=" flex flex-row p-5">
-        <Link className="max-w-xs max-h-xs	" href={`/podcast/${podcast}`}>
+        <Link className="max-w-xs max-h-xs	" href={`/podcast/${podcast}`}  onClick={() => {setShowLoadingIcon(true)}}>
             <div className= " justify-center items-center shadow-md border m-5 p-5">
                 <img className=" max-w-300 max-h-300 p-5" src={podcastDetails?.artworkUrl600}></img>
                 <hr></hr>

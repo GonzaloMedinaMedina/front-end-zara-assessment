@@ -29,7 +29,7 @@ export default function Home()
     {
         var cachedData: [] = readCachedDataByPattern(podcastListTimeStampKey, podcastListCacheKey);
 
-        return cachedData.map(p => { return <PodcastIcon podcastInfo={p}></PodcastIcon> });
+        return cachedData.map(p => { return <PodcastIcon key={p?.id?.attributes["im:id"]} podcastInfo={p}></PodcastIcon> });
     }
 
     useEffect(() =>
@@ -47,7 +47,7 @@ export default function Home()
                 {
                     entry.forEach((p) => 
                     {
-                        podcastsComponents.push(<PodcastIcon podcastInfo={p}></PodcastIcon>)
+                        podcastsComponents.push(<PodcastIcon key={p?.id?.attributes["im:id"]} podcastInfo={p}></PodcastIcon>)
                         localStorage.setItem(`podcast${p.id!.attributes["im:id"]}`, JSON.stringify(p));
                     });
 

@@ -1,9 +1,9 @@
 export default function PodcastIcon({podcastInfo})
 {
-    const title: string = podcastInfo!.title!.label;
-    const author: string = podcastInfo["im:artist"]!.label;
+    const title: string = podcastInfo?.title?.label;
+    const author: string = podcastInfo["im:artist"]?.label;
     const image = podcastInfo["im:image"]![2]!.label;
-    const id = podcastInfo!.id!.attributes["im:id"];
+    const id = podcastInfo?.id?.attributes["im:id"];
 
     return <a href={`/podcast/${id}`}>
         <div key={id} className=" justify-center items-center shadow-md border m-5 mt-20">

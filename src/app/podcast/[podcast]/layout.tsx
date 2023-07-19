@@ -10,24 +10,28 @@ export const PodcastDetailsContext = createContext(
         artworkUrl600: '',
         artistName: '',
         collectionName: '',
-        feedUrl: '',
-        summary: { label: '' }
+        feedUrl: ''
     });
 
 export default function Layout({params, children}: {params:any, children: React.ReactNode})
 {
     const podcast = params.podcast;
+
     const podcastDetailsCacheKey: string = `podcastDetails${podcast}`;
     const podcastDetailsTimeStampKey: string = `podcastDetails${podcast}TimeStamp`;
+    
+    const podcastKey: string = `podcast${podcast}`;
+    const podcastListTimeStampKey:string = 'podcastListTimeStamp';
+
     const setShowLoadingIcon = useContext(ShowLoadingIconContext);
 
+    const [summary, setSummary] = useState('');
     const [podcastDetails, setPodcastDetails] = useState(
     {
         artworkUrl600: '',
         artistName: '',
         collectionName: '',
-        feedUrl: '',
-        summary: { label: '' }
+        feedUrl: ''
     });
 
     const readCachedPodcastDetails = () =>
@@ -35,9 +39,20 @@ export default function Layout({params, children}: {params:any, children: React.
         return readCachedData(podcastDetailsTimeStampKey, podcastDetailsCacheKey);
     }
 
+    const readCachedPodcastSummary = () =>
+    {
+        var cachedPodcast = readCachedData(podcastListTimeStampKey, podcastKey);
+
+        if (cachedPodcast?.summary?.label)
+        {
+            setSummary(cachedPodcast?.summary?.label);
+        }
+    }
+
     useEffect(() => 
     {
         const cachedPodcastObject: any = readCachedPodcastDetails();
+        readCachedPodcastSummary();
 
         if (cachedPodcastObject === null)
         {
@@ -76,7 +91,7 @@ export default function Layout({params, children}: {params:any, children: React.
                 <hr></hr>
                 <div className="mt-5">
                     <div className="font-bold">Description:</div>
-                    <div className="italic text-ellipsis overflow-hidden">{podcastDetails?.summary?.label}</div>
+                    <div className="italic text-ellipsis overflow-hidden">{summary}</div>
                 </div>
             </div>
         </Link>

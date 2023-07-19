@@ -51,7 +51,7 @@ export default function Home()
                         localStorage.setItem(`podcast${p.id!.attributes["im:id"]}`, JSON.stringify(p));
                     });
 
-                    localStorage.setItem('podcastListTimeStamp', JSON.stringify((new Date()).getTime()));
+                    localStorage.setItem(podcastListTimeStampKey, JSON.stringify((new Date()).getTime()));
                     setPodcasts(podcastsComponents);
                 }
             })

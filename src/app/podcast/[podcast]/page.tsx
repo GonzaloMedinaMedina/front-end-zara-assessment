@@ -29,12 +29,30 @@ export default function Page({params})
         return `${day}/${month}/${year}`;
     }
 
+    const getFormatDurationString = (duration: string) =>
+    {
+        var durationString:string = '';
+        let totalSecs: number = Number(duration);
+        let secs: number = totalSecs % 60;
+        let min: number = Math.floor(totalSecs / 60);
+
+        if (min > 60)
+        {
+            let hours: number = Math.floor(min / 60);
+            durationString = hours + ":" + min + ":" + secs;
+            return durationString
+        }
+
+        durationString =  min + ":" + secs;
+        return durationString
+    }
+
     const createEpisodeObject = (item: any, index: number) =>
     {
         return {
             title: item.title[0],
             date: getFormatDate(item.pubDate[0]),
-            duration: item['itunes:duration'],
+            duration: getFormatDurationString(item['itunes:duration']),
             id: index,
             soundContent: item['enclosure'][0]['$'].url,
             description: item['description']
@@ -91,12 +109,13 @@ export default function Page({params})
     }, [podcastDetails]);
 
     var gray: boolean = true;
+    let episodeKey = 0;
     const episodeComponents = episodeList.map(e =>
     {
         let bgColor = gray ? "bg-gray-100" : "";
         gray = !gray;
 
-        return <div className={"flex flex-inline py-1 " + bgColor}>
+        return <div key={episodeKey++} className={"flex flex-inline py-1 " + bgColor}>
             <Link className="w-full px-5 text-blue-600" href={`/podcast/${podcastId}/episode/${e.id}`} onClick={() => { setShowLoadingIcon(true)}}>{e.title}</Link>
             <p className="px-20">{e.date}</p>
             <p className="px-5">{e.duration}</p>

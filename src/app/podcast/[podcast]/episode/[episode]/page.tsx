@@ -41,7 +41,7 @@ export default function Page({params}: {params:any})
 
     return <div className="hadow-md border p-5 mb-10">
         <p className="w-full p-5 text-xl">{currentEpisode.title}</p>
-        <div className="text-gray-600 italic p-5">{currentEpisode.description}</div>
+        <div className="text-gray-600 italic p-5" dangerouslySetInnerHTML={{ __html: currentEpisode.description }}/>
         {soundComponent}
     </div>
 }

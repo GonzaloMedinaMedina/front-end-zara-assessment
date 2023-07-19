@@ -1,16 +1,18 @@
 
 'use client'
 import Link from 'next/link'
-import { useEffect, useState, createContext } from "react"
+import { useEffect, useState, useContext, createContext } from "react"
 import { readCachedData } from "../../utils";
+import { ShowLoadingIconContext } from '@/app/layout'
 
 export const PodcastDetailsContext = createContext(null);
 
-export default function Layout({params, children}: {children: React.ReactNode})
+export default function Layout({params, children}: {params:any, children: React.ReactNode})
 {
     const podcast = params.podcast;
     const podcastDetailsCacheKey: string = `podcastDetails${podcast}`;
     const podcastDetailsTimeStampKey: string = `podcastDetails${podcast}TimeStamp`;
+    const setShowLoadingIcon = useContext(ShowLoadingIconContext);
 
     const [podcastDetails, setPodcastDetails] = useState(
     {

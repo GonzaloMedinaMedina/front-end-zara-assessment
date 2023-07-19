@@ -33,7 +33,7 @@ export default function Page({params}: {params:any})
     []);
 
     const soundComponent = currentEpisode.soundContent !== '' ?
-    <audio controls>
+        <audio className=" w-full" controls>
             <source src={currentEpisode.soundContent}/>
         </audio>
         :

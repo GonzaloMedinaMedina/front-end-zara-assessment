@@ -3,7 +3,7 @@ import { useState, useEffect, useContext } from "react"
 import { readCachedData } from "@/app/utils";
 import { ShowLoadingIconContext } from '@/app/layout'
 
-export default function Page({params})
+export default function Page({params}: {params:any})
 {
     const podcastId = params.podcast;
     const episodeId = params.episode;
@@ -25,7 +25,7 @@ export default function Page({params})
     
     useEffect(() => 
     {
-        const cachedEpisodes = readCahedPodcastEpisodes();
+        const cachedEpisodes: any[] = readCahedPodcastEpisodes();
         const episodeInfo = cachedEpisodes.find(e => e.id == episodeId);
         setCurrentEpisode(episodeInfo);
         setShowLoadingIcon(false)

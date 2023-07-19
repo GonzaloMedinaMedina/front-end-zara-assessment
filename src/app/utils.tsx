@@ -1,6 +1,6 @@
-export const isOneDayDiff = (timeStampKey) =>
+export const isOneDayDiff = (timeStampKey:string) =>
 {
-    const timeStamp = localStorage.getItem(timeStampKey);
+    const timeStamp: any | null = localStorage.getItem(timeStampKey);
     if (timeStamp === null)
         return false
 
@@ -10,7 +10,7 @@ export const isOneDayDiff = (timeStampKey) =>
 
 export const readCachedDataByPattern = (timeStampKey: string, keyPattern: string) => 
 {
-    var cacheData: [] = [];
+    var cacheData: any[] = [];
 
     if (isOneDayDiff(timeStampKey))
     {

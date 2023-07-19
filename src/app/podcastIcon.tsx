@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { ShowLoadingIconContext } from '@/app/layout'
 import { useContext } from "react";
 
-export default function PodcastIcon({podcastInfo})
+export default function PodcastIcon({podcastInfo}:{podcastInfo:any})
 {
     const setShowLoadingIcon = useContext(ShowLoadingIconContext);
     const title: string = podcastInfo?.title?.label;

@@ -7,14 +7,14 @@ import { ShowLoadingIconContext } from '@/app/layout'
 
 var parseString = require('xml2js').parseString;
 
-export default function Page({params})
+export default function Page({params} : {params:any})
 {    
     const podcastId = params.podcast;
 
     const podcastEpisodesTimeStampKey = `podcastEpisodesTimeStamp${podcastId}`;
     const podcastEpisodesKey = `podcastEpisodes${podcastId}`;
 
-    const [episodeList, setEpisodeList] = useState([]);
+    const [episodeList, setEpisodeList] = useState<any[]>([]);
     const podcastDetails = useContext(PodcastDetailsContext);
     const setShowLoadingIcon = useContext(ShowLoadingIconContext);
 
@@ -77,13 +77,13 @@ export default function Page({params})
                 .then(response => response.json())
                 .then(data => 
                 {
-                    parseString(data.contents, function (err, result) 
+                    parseString(data.contents, function (err:any, result:any) 
                     {
                         const episodeList: [] = result?.rss?.channel[0]?.item;
 
                         if (episodeList)
                         {
-                            var episodeObjectList: [] = [];
+                            var episodeObjectList: any[] = [];
                             let episodeIndex:number = 0;
 
                             episodeList.forEach(i => 

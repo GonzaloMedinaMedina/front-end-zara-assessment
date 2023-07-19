@@ -5,7 +5,14 @@ import { useEffect, useState, useContext, createContext } from "react"
 import { readCachedData } from "../../utils";
 import { ShowLoadingIconContext } from '@/app/layout'
 
-export const PodcastDetailsContext = createContext(null);
+export const PodcastDetailsContext = createContext(
+    {
+        artworkUrl600: '',
+        artistName: '',
+        collectionName: '',
+        feedUrl: '',
+        summary: { label: '' }
+    });
 
 export default function Layout({params, children}: {params:any, children: React.ReactNode})
 {
@@ -20,7 +27,7 @@ export default function Layout({params, children}: {params:any, children: React.
         artistName: '',
         collectionName: '',
         feedUrl: '',
-        summary: ''
+        summary: { label: '' }
     });
 
     const readCachedPodcastDetails = () =>

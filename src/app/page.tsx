@@ -10,7 +10,7 @@ export default function Home()
     const podcastListTimeStampKey = 'podcastListTimeStamp';
     
     const [podcastSearchInput, setPodcastSearchInput] = useState('');
-    const [podcasts, setPodcasts] = useState([]);
+    const [podcasts, setPodcasts] = useState<any[]>([]);
 
     const podcastMatchWithSearchInput = (podcast: any) =>
     {
@@ -27,14 +27,14 @@ export default function Home()
 
     const readCachedPodcasts = () => 
     {
-        var cachedData: [] = readCachedDataByPattern(podcastListTimeStampKey, podcastListCacheKey);
+        var cachedData: any[] = readCachedDataByPattern(podcastListTimeStampKey, podcastListCacheKey);
 
         return cachedData.map(p => { return <PodcastIcon key={p?.id?.attributes["im:id"]} podcastInfo={p}></PodcastIcon> });
     }
 
     useEffect(() =>
     {
-        var podcastsComponents: [] = readCachedPodcasts(); 
+        var podcastsComponents: any[] = readCachedPodcasts(); 
 
         if (podcastsComponents.length === 0)
         {
@@ -42,7 +42,7 @@ export default function Home()
             .then(response => response.json())
             .then(data => 
             {
-                const entry = data!.feed!.entry!
+                const entry: any[] = data!.feed!.entry!
                 if (entry.length! > 0)
                 {
                     entry.forEach((p) => 
